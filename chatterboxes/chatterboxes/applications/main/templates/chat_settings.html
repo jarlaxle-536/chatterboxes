@@ -8,7 +8,7 @@
   CHAT SETTINGS
 </h4>
 
-<form class="form-horizontal" action="" id="chat_settings_form">
+<form class="form-horizontal" action="{% url 'chat_settings' %}" id="chat_settings_form">
   {% csrf_token %}
   {% render_form chat_settings_form %}
   <input class="btn btn-primary btn-block" type="submit" value="OK">
@@ -22,9 +22,13 @@
 
 {% block javascript %}
 <script src="{% static 'js/ref_btn_clicked.js' %}"></script>
+<script src="{% static 'js/form_submit.js' %}"></script>
 <script>
   $('#main_page_btn').on('click', function (event) {
     ref_btn_clicked(event);
+  });
+  $('#chat_settings_form').on('submit', function (event) {
+    form_submit(event, "{% url 'chat' %}");
   });
 </script>
 {% endblock javascript %}

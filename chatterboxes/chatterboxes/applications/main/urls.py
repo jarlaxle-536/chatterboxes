@@ -5,7 +5,7 @@ from .views import *
 urlpatterns = [
     path(
         '',
-        MainPageAPI.as_view(), 
+        MainPageAPI.as_view(),
         name='main'
     ),
     path(
@@ -13,4 +13,9 @@ urlpatterns = [
         SettingsAPI.as_view(),
         name='chat_settings'
     ),
+    path(
+        'chat',
+        ChatAPI.as_view(),
+        name='chat'
+    )
 ]

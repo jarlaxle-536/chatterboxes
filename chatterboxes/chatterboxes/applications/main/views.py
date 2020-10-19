@@ -1,6 +1,7 @@
-from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import redirect
 
 from .serializers import *
 
@@ -13,6 +14,7 @@ class MainPageAPI(APIView):
 class SettingsAPI(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'chat_settings.html'
+
     def get(self, request):
         data = {
             'allow_bots': False,
@@ -25,8 +27,17 @@ class SettingsAPI(APIView):
             'chat_settings_form': ChatSettingsSerializer(data),
         }
         return Response(context)
+
     def post(self, request):
-        pass
+        print(request.POST)
+        serializer = ChatSettingsSerializer(data=request.POST)
+        print(serializer)
+        if serializer.is_valid():
+            print('VALID')
+        context = {
+            'chat_settings_form': serializer,
+        }
+        return redirect('chat')
 
 class ChatAPI(APIView):
     renderer_classes = [TemplateHTMLRenderer]
