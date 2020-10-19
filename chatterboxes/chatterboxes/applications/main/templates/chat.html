@@ -11,6 +11,20 @@
   Lorem ipsum
 </p>
 
+<div>
+current talk: {{ talk }}
+</div>
+
+<div class="container-fluid overflow-hidden h-100" id="chat_div">
+  {% for msg in talk.message_set %}
+  <div class="card">
+    <div class="card-body">
+      {{ msg.text }}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
 <a class="btn btn-primary btn-block text-white" href="#" id="end_chat">
   End chat
 </a>

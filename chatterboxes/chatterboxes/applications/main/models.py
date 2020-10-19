@@ -1,3 +1,11 @@
 from django.db import models
 
-# Create your models here.
+class ChatMessage(models.Model):
+    text = models.TextField()
+    talk = models.ForeignKey(
+        'Talk',
+        on_delete=models.CASCADE,
+    )
+
+class Talk(models.Model):
+    pass
