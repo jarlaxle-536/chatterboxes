@@ -1,4 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h4 style='text-align: center;'>
+  CHAT
+</h4>
+
+<p>
+  Lorem ipsum
+</p>
+
+<a class="btn btn-primary btn-block text-white" href="{% url 'chat_settings' %}" id="chat_settings_btn">
+  Back
+</a>
+
 {% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'js/ref_btn_clicked.js' %}"></script>
+<script>
+  $('#chat_settings_btn').on('click', function (event) {
+    ref_btn_clicked(event);
+  });
+</script>
+{% endblock javascript %}
