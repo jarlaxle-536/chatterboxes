@@ -8,7 +8,12 @@
 </h4>
 
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
 </p>
 
 <a class="btn btn-primary btn-block text-white" href="{% url 'chat_settings' %}" id="chat_settings_btn">
@@ -17,10 +22,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 {% endblock content %}
 
 {% block javascript %}
-<script src="{% static 'js/chat_settings_btn_clicked.js' %}"></script>
+<script src="{% static 'js/ref_btn_clicked.js' %}"></script>
 <script>
   $('#chat_settings_btn').on('click', function (event) {
-    chat_settings_btn_clicked(event);
+    ref_btn_clicked(event);
   });
 </script>
 {% endblock javascript %}

@@ -3,6 +3,14 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', main, name='main'),
-    path('settings', settings, name='chat_settings'),
+    path(
+        '',
+        MainPageAPI.as_view(), 
+        name='main'
+    ),
+    path(
+        'settings',
+        SettingsAPI.as_view(),
+        name='chat_settings'
+    ),
 ]

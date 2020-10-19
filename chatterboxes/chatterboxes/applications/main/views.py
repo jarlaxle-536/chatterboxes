@@ -1,16 +1,21 @@
-from django.http import HttpResponse
-from django.template import loader
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .forms import *
+from .serializers import *
 
-def main(request):
-    template = loader.get_template('main_page.html')
-    context = dict()
-    return HttpResponse(template.render(context, request))
+class MainPageAPI(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'main_page.html'
+    def get(self, request):
+        return Response()
 
-def settings(request):
-    """Works with settings form"""
-    template = loader.get_template('chat_settings.html')
-    context = dict()
-    context['chat_settings_form'] = ChatSettingsForm()
-    return HttpResponse(template.render(context, request))
+class SettingsAPI(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'chat_settings.html'
+    def get(self, request):
+        data = {'allow_bots': False}
+        context = {
+            'chat_settings_form': ChatSettingsSerializer(data),
+        }
+        return Response(context)
