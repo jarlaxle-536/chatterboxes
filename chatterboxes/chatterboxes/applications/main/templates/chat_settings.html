@@ -11,7 +11,7 @@
   Lorem ipsum
 </p>
 
-<form id="chat_settings_form">
+<form action="" id="chat_settings_form">
   {% csrf_token %}
   {{ chat_settings_form }}
   <input type="submit">
@@ -19,11 +19,4 @@
   </input>
 </form>
 
-<button id="start_chatting">
-  <a href="#">
-    Start
-  </a>
-</button>
-
-<script src="{% static 'js/settings_submit.js' %}"></script>
 {% endblock content %}
