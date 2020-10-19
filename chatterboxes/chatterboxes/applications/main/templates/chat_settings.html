@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h4>
+  This is chat settings
+</h4>
+
+<p>
+  Lorem ipsum
+</p>
+
+<form id="chat_settings_form">
+  {% csrf_token %}
+  {{ chat_settings_form }}
+  <input type="submit">
+    OK
+  </input>
+</form>
+
+<button id="start_chatting">
+  <a href="#">
+    Start
+  </a>
+</button>
+
+<script src="{% static 'js/settings_submit.js' %}"></script>
+{% endblock content %}

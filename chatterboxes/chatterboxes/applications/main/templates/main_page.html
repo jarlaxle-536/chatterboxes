@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h4>
+  This is main page
+</h4>
+
+<p>
+  Lorem ipsum
+</p>
+
+<button id="chat_settings">
+  <a href="{% url 'chat_settings' %}">
+    Settings
+  </a>
+</button>
+{% endblock content %}
