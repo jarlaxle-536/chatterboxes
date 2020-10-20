@@ -2,6 +2,9 @@ from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import redirect
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
 
 from .serializers import *
 from .auxiliary import *
@@ -63,13 +66,18 @@ class ChatAPI(APIView):
         return response
     def post(self, request):
         print(request.POST)
-        talk_id = get_talk_id(request)
         serializer = ChatMessageSerializer(data=request.POST)
-        print(serializer)
         if serializer.is_valid():
             print('VALID')
-            serializer.save(talk_id=talk_id)
+            serializer.save(talk_id=get_talk_id(request))
         context = {
             'chat_message_serializer': serializer,
         }
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+        'chat', {
+            'type': 'chat.update',
+            'serializer_data': serializer.data
+            }
+        )
         return Response(context)

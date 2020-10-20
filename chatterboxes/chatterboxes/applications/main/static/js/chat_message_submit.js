@@ -14,7 +14,7 @@ function submit_message (event) {
     url: url,
     data: query_string,
     success: function(resp) {
-      console.log(resp);
+      1;
     }
   });
 };

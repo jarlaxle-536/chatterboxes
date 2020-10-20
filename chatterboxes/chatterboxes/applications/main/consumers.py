@@ -2,6 +2,8 @@ from channels.generic.websocket import WebsocketConsumer
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
+import json
+
 from .models import *
 
 class ChatConsumer(WebsocketConsumer):
@@ -16,3 +18,7 @@ class ChatConsumer(WebsocketConsumer):
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
             self.group_name, self.channel_name)
+
+    def chat_update(self, kwargs):
+        text = json.dumps(kwargs['serializer_data'])
+        self.send(text)

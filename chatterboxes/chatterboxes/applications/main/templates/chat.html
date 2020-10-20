@@ -16,7 +16,13 @@
 current talk: {{ talk }}
 </div>
 
-<div class="container-fluid overflow-hidden h-50" style="border:1px solid #cecece;" id="chat_div">
+<div class="container-fluid overflow-auto h-50" style="border:1px solid #cecece;" id="chat_div">
+  <div class="card" hidden="true" id="message_template_card">
+    <div class="card-body" id="message_template_card_body">
+      message_text
+    </div>
+  </div>
+
   {% for msg in talk.message_set %}
   <div class="card">
     <div class="card-body">
