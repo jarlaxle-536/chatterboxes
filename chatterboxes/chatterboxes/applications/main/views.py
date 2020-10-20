@@ -32,7 +32,7 @@ class SettingsAPI(APIView):
             'interlocutor_age': '0-15',
         }
         context = {
-            'chat_settings_form': ChatSettingsSerializer(data),
+            'chat_settings_serializer': ChatSettingsSerializer(data),
         }
         return Response(context)
 
@@ -43,7 +43,7 @@ class SettingsAPI(APIView):
         if serializer.is_valid():
             print('VALID')
         context = {
-            'chat_settings_form': serializer,
+            'chat_settings_serializer': serializer,
         }
         return redirect('chat')
 
@@ -54,6 +54,10 @@ class ChatAPI(APIView):
         talk_id = get_talk_id(request)
         talk, created = Talk.objects.get_or_create(pk=talk_id)
         context = {'talk': talk}
+        data = {'text': ''}
+        context = {
+            'chat_message_serializer': ChatMessageSerializer(data),
+        }
         response = Response(context)
         response.set_cookie('talk_id', talk.id)
         return response

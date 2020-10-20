@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load rest_framework %}
 
 {% block content %}
 <h4 style='text-align: center;'>
@@ -15,7 +16,7 @@
 current talk: {{ talk }}
 </div>
 
-<div class="container-fluid overflow-hidden h-100" id="chat_div">
+<div class="container-fluid overflow-hidden h-50" style="border:1px solid #cecece;" id="chat_div">
   {% for msg in talk.message_set %}
   <div class="card">
     <div class="card-body">
@@ -25,6 +26,12 @@ current talk: {{ talk }}
   {% endfor %}
 </div>
 
+<form class="form-vertical" action="{% url 'chat' %}" id="chat_message_form">
+  {% csrf_token %}
+  {% render_form chat_message_serializer %}
+  <input class="btn btn-primary btn-block" type="submit" value="OK">
+</form>
+
 <a class="btn btn-primary btn-block text-white" href="#" id="end_chat">
   End chat
 </a>
@@ -32,4 +39,5 @@ current talk: {{ talk }}
 {% endblock content %}
 
 {% block javascript %}
+<script src="{% static 'js/websocket_connector.js' %}"></script>
 {% endblock javascript %}

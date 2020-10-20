@@ -10,7 +10,7 @@
 
 <form class="form-horizontal" action="{% url 'chat_settings' %}" id="chat_settings_form">
   {% csrf_token %}
-  {% render_form chat_settings_form %}
+  {% render_form chat_settings_serializer %}
   <input class="btn btn-primary btn-block" type="submit" value="OK">
 </form>
 
