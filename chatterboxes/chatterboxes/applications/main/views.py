@@ -56,9 +56,9 @@ class ChatAPI(APIView):
     def get(self, request):
         talk_id = get_talk_id(request)
         talk, created = Talk.objects.get_or_create(pk=talk_id)
-        context = {'talk': talk}
         data = {'text': ''}
         context = {
+            'talk': talk,
             'chat_message_serializer': ChatMessageSerializer(data),
         }
         response = Response(context)

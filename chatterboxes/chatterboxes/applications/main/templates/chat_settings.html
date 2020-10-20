@@ -28,7 +28,7 @@
     ref_btn_clicked(event);
   });
   $('#chat_settings_form').on('submit', function (event) {
-    form_submit(event, "{% url 'chat' %}");
+    form_submit(event, redirect=true);
   });
 </script>
 {% endblock javascript %}

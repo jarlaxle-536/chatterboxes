@@ -1,4 +1,4 @@
-function form_submit (event, success_url) {
+function form_submit (event, redirect=false) {
   console.log('form submit');
   event.preventDefault();
   var url = event.target.action;
@@ -9,9 +9,11 @@ function form_submit (event, success_url) {
     url: url,
     data: query_string,
     success: function(resp) {
-      document.open();
-      document.write(resp);
-      document.close();
+      if (redirect) {
+        document.open();
+        document.write(resp);
+        document.close();
+      };
     }
   });
 }

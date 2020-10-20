@@ -23,7 +23,7 @@ current talk: {{ talk }}
     </div>
   </div>
 
-  {% for msg in talk.message_set %}
+  {% for msg in talk.chatmessage_set.all %}
   <div class="card">
     <div class="card-body">
       {{ msg.text }}
@@ -46,5 +46,19 @@ current talk: {{ talk }}
 
 {% block javascript %}
 <script src="{% static 'js/websocket_connector.js' %}"></script>
-<script src="{% static 'js/chat_message_submit.js' %}"></script>
+<script src="{% static 'js/form_submit.js' %}"></script>
+<script>
+  var chat_message_form = $('#chat_message_form');
+  var chat_message_textarea = chat_message_form.find('textarea[name=text]')
+  chat_message_form.on('submit', function (event) {
+    form_submit(event);
+    chat_message_textarea.val('');
+  });
+  chat_message_textarea.on('keypress', function (event) {
+    if (event.which === 13) {
+      event.preventDefault();
+      chat_message_form.submit();
+    }
+  });
+</script>
 {% endblock javascript %}
