@@ -61,3 +61,15 @@ class ChatAPI(APIView):
         response = Response(context)
         response.set_cookie('talk_id', talk.id)
         return response
+    def post(self, request):
+        print(request.POST)
+        talk_id = get_talk_id(request)
+        serializer = ChatMessageSerializer(data=request.POST)
+        print(serializer)
+        if serializer.is_valid():
+            print('VALID')
+            serializer.save(talk_id=talk_id)
+        context = {
+            'chat_message_serializer': serializer,
+        }
+        return Response(context)

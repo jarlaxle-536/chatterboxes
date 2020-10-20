@@ -10,17 +10,17 @@ class ChatSettingsSerializerTest(TransactionTestCase):
         pass
 
     def test_all_valid(self):
-        serializer = ChatSettingsSerializer(data=VALID_SERIALIZER_DATA)
+        serializer = ChatSettingsSerializer(data=VALID_SETTINGS_SERIALIZER_DATA)
         self.assertTrue(serializer.is_valid())
 
     def test_smth_invalid(self):
-        for k, v in INVALID_SERIALIZER_DATA.items():
-            data = VALID_SERIALIZER_DATA.copy()
+        for k, v in INVALID_SETTINGS_SERIALIZER_DATA.items():
+            data = VALID_SETTINGS_SERIALIZER_DATA.copy()
             data[k] = v
             serializer = ChatSettingsSerializer(data=data)
             self.assertFalse(serializer.is_valid())
 
-VALID_SERIALIZER_DATA = {
+VALID_SETTINGS_SERIALIZER_DATA = {
     'allow_bots': False,
     'client_gender': 'male',
     'client_age': '0-15',
@@ -28,7 +28,7 @@ VALID_SERIALIZER_DATA = {
     'interlocutor_age': ['0-15'],
 }
 
-INVALID_SERIALIZER_DATA = {
+INVALID_SETTINGS_SERIALIZER_DATA = {
     'allow_bots': None,
     'client_gender': None,
     'client_age': None,
