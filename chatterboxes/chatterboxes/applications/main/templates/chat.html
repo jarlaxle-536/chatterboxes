@@ -38,7 +38,7 @@ current talk: {{ talk }}
   <input class="btn btn-primary btn-block" type="submit" value="OK">
 </form>
 
-<a class="btn btn-primary btn-block text-white" href="#" id="end_chat">
+<a class="btn btn-primary btn-block text-white" href="{% url 'chat' %}" id="end_chat_btn">
   End chat
 </a>
 
@@ -59,6 +59,19 @@ current talk: {{ talk }}
       event.preventDefault();
       chat_message_form.submit();
     }
+  });
+  $('#end_chat_btn').on('click', function (event) {
+    console.log('deleteing currnt talk');
+    event.preventDefault();
+    var url = event.target.href;
+    console.log(url);
+    $.ajax({
+      url: url,
+      type: 'DELETE',
+      success: function(resp) {
+        console.log(resp);
+      }
+    });
   });
 </script>
 {% endblock javascript %}

@@ -53,6 +53,7 @@ class SettingsAPI(APIView):
 class ChatAPI(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'chat.html'
+
     def get(self, request):
         talk_id = get_talk_id(request)
         talk, created = Talk.objects.get_or_create(pk=talk_id)
@@ -64,6 +65,7 @@ class ChatAPI(APIView):
         response = Response(context)
         response.set_cookie('talk_id', talk.id)
         return response
+
     def post(self, request):
         print(request.POST)
         serializer = ChatMessageSerializer(data=request.POST)
@@ -81,3 +83,16 @@ class ChatAPI(APIView):
             }
         )
         return Response(context)
+
+    def delete(self, request):
+        print('deleting')
+        print(request.COOKIES)
+        data = {'text': ''}
+        context = {
+            'chat_message_serializer': ChatMessageSerializer(data),
+        }
+        talk_id = get_talk_id(request)
+        talk = Talk.objects.get(pk=talk_id)
+        response = Response(context)
+        response.set_cookie('talk_id', None) # resetting cookies
+        return response
