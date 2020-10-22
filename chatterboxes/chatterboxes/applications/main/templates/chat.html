@@ -76,7 +76,7 @@ current talk: {{ talk }}, {{talk.has_ended}}
     }
   });
   $('#end_chat_btn').on('click', function (event) {
-    console.log('deleteing currnt talk');
+    console.log('ending current talk');
     event.preventDefault();
     var url = event.target.href;
     console.log(url);

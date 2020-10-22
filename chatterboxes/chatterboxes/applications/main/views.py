@@ -14,6 +14,7 @@ class MainPageAPI(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'main_page.html'
     def get(self, request):
+        print('main:get')
         talk_id = get_talk_id(request)
         print(f'talk_id in main page api: {talk_id}')
         print(type(talk_id))
@@ -27,6 +28,7 @@ class SettingsAPI(APIView):
     template_name = 'chat_settings.html'
 
     def get(self, request):
+        print('chat_settings:get')
         data = {
             'allow_bots': False,
             'client_gender': 'male',
@@ -40,14 +42,19 @@ class SettingsAPI(APIView):
         return Response(context)
 
     def post(self, request):
-        print(request.POST)
+        print('chat_settings:post')
         serializer = ChatSettingsSerializer(data=request.POST)
         print(serializer)
         if serializer.is_valid():
             print('VALID')
+            "save settings to cookies!"
+        else:
+            print('INVALID')
+            print(serializer.errors)
         context = {
             'chat_settings_serializer': serializer,
         }
+        'search for possible interlocutor here'
         return redirect('chat')
 
 class ChatAPI(APIView):
@@ -67,11 +74,14 @@ class ChatAPI(APIView):
         return response
 
     def post(self, request):
-        print(request.POST)
+        print("")
         serializer = ChatMessageSerializer(data=request.POST)
         if serializer.is_valid():
             print('VALID')
             serializer.save(talk_id=get_talk_id(request))
+        else:
+            print('INVALID')
+            print(serializer.errors)
         context = {
             'chat_message_serializer': serializer,
         }

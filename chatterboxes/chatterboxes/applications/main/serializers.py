@@ -58,12 +58,3 @@ class TalkSerializer(serializers.ModelSerializer):
             setattr(inst, k, v)
         inst.save()
         return inst
-#    def save(self):
-#        print(f'saving {self}')
-#        print(self.validated_data)
-#        for k, v in self.validated_data.items():
-#            print(k, v)
-#            setattr(self, k, v)
-#        for k, v in kwargs['data'].items():
-#            setattr(self, k, v)
-#        return super().save()
