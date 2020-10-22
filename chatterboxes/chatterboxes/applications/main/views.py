@@ -17,7 +17,7 @@ class MainPageAPI(APIView):
         talk_id = get_talk_id(request)
         print(f'talk_id in main page api: {talk_id}')
         print(type(talk_id))
-        if talk_id:
+        if not talk_id is None:
             return redirect('chat')
         else:
             return Response()
@@ -84,15 +84,26 @@ class ChatAPI(APIView):
         )
         return Response(context)
 
-    def delete(self, request):
-        print('deleting')
+    def patch(self, request):
+        print('patching')
         print(request.COOKIES)
-        data = {'text': ''}
-        context = {
-            'chat_message_serializer': ChatMessageSerializer(data),
-        }
+        print(request.data)
         talk_id = get_talk_id(request)
         talk = Talk.objects.get(pk=talk_id)
+        data = {'text': ''}
+        talk_serializer = TalkSerializer(data=request.data)
+        print(talk_serializer)
+        if talk_serializer.is_valid():
+            print(talk, talk.__dict__)
+            print('VALID')
+            talk = talk_serializer.save()
+            print(talk, talk.__dict__)
+        else:
+            print(talk_serializer.errors)
+        context = {
+            'talk': talk,
+            'chat_message_serializer': ChatMessageSerializer(data),
+        }
         response = Response(context)
-        response.set_cookie('talk_id', None) # resetting cookies
+#        response.set_cookie('talk_id', None) # resetting cookies
         return response

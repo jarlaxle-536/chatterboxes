@@ -8,4 +8,6 @@ class ChatMessage(models.Model):
     )
 
 class Talk(models.Model):
-    pass
+    has_ended = models.BooleanField(
+        default=False
+    )

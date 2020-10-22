@@ -1,7 +1,10 @@
 from django.urls import reverse
 
 def get_talk_id(request):
-    res = request.COOKIES.get('talk_id')
+    try:
+        res = int(request.COOKIES.get('talk_id'))
+    except Exception:
+        res = None
     print(f'GET TALK ID RESULT: {res}, {type(res)}')
     return res
 
