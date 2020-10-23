@@ -11,16 +11,35 @@ from .auxiliary import *
 from .models import *
 
 class MainPageAPI(APIView):
+
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'main_page.html'
-    def get(self, request):
+
+    def old_get(self, request):
         print('main:get')
+        print(request.session.__dict__)
+        ChatSession
         talk_id = get_talk_id(request)
         print(f'talk_id in main page api: {talk_id}')
         print(type(talk_id))
         if not talk_id is None:
             return redirect('chat')
         else:
+            return Response()
+
+    def get(self, request):
+        print('main:get')
+        talk_id = request.session.get('talk_id', None)
+        print(f'talk id: {talk_id}')
+        channel_layer = get_channel_layer()
+        print('sending general.add')
+        async_to_sync(channel_layer.group_send)(
+            'general', {
+                'type': 'general.add',
+                'data': 'some_data'
+                }
+            )
+        if talk_id is None:
             return Response()
 
 class SettingsAPI(APIView):

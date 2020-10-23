@@ -1,6 +1,6 @@
 console.log(window.location.host);
-console.log('ws://' + window.location.host + '/chat/');
-var socket = new WebSocket('ws://' + window.location.host + '/chat/');
+console.log('ws://' + window.location.host + '/general/');
+var socket = new WebSocket('ws://' + window.location.host + '/general/');
 
 socket.onopen = function open() {
   console.log('WebSockets connection created.');
