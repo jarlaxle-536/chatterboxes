@@ -3,8 +3,19 @@ from django.test import TestCase, TransactionTestCase, tag
 from chatterboxes.applications.main.models import *
 from chatterboxes.applications.main.serializers import *
 
-@tag('serializer')
-class ChatSettingsSerializerTest(TransactionTestCase):
+@tag('serializer', 'settings')
+class ChatSettingsSerializationTest(TransactionTestCase):
+
+    def setUp(self):
+        self.default_object = ChatSettings.default_object()
+
+    def test_default(self):
+        serializer = ChatSettingsSerializer(self.default_object)
+        for k, v in serializer.data.items():
+            self.assertEquals(v, getattr(self.default_object, k))
+
+@tag('serializer', 'settings')
+class ChatSettingsDeserializationTest(TransactionTestCase):
 
     def setUp(self):
         pass

@@ -6,28 +6,31 @@ from .models import *
 class ChatSettingsSerializer(serializers.Serializer):
     client_gender = serializers.ChoiceField(
         choices=settings.GENDERS,
+        default=settings.DEFAULT_GENDER,
         style={'base_template': 'radio.html'}
     )
     client_age = serializers.ChoiceField(
         choices=settings.AGES,
-        style={'base_template': 'radio.html'}
+        default=settings.DEFAULT_AGE,
+        style={'base_template': 'radio.html'},
     )
     interlocutor_gender = serializers.MultipleChoiceField(
         choices=settings.GENDERS,
+        default=[settings.DEFAULT_GENDER],
     )
     interlocutor_age = serializers.MultipleChoiceField(
         choices=settings.AGES,
+        default=[settings.DEFAULT_AGE],
     )
     allow_bots = serializers.BooleanField(
-
+        default=False,
     )
 
     def create(self, validated_data):
-        return ChatSettings(**validated_data)
-
-class ChatSettings:
-    def __init__(self, *args, **kwargs):
-        self.__dict__.update(kwargs)
+        print(f'calling settings_serializer create with {self}, {validated_data}')
+        result = ChatSettings(**validated_data)
+        print(f'result: {result}')
+        return result
 
 class ChatMessageSerializer(serializers.ModelSerializer):
     class Meta:

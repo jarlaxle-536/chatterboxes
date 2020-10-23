@@ -19,33 +19,26 @@ class MainPageAPI(APIView):
     template_name = 'main_page.html'
 
     def get(self, request):
-
-        print('main:get')
         talk_id = get_talk_id(request)
-        print(f'cookies: {request.COOKIES}')
-        print(f'talk id: {talk_id}')
-        if talk_id is None:
-            return Response()
-        else:
-            return redirect('chat')
+        response = Response() if talk_id is None else redirect('chat')
+        return response
 
 class SettingsAPI(APIView):
+
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'chat_settings.html'
 
     def get(self, request):
+        'if talk id is present, redirect to chat'
         print('chat_settings:get')
-        data = {
-            'allow_bots': False,
-            'client_gender': 'male',
-            'client_age': '0-15',
-            'interlocutor_gender': 'male',
-            'interlocutor_age': '0-15',
-        }
+        talk_id = get_talk_id(request)
+        serializer = ChatSettingsSerializer(ChatSettings.default_object())
         context = {
-            'chat_settings_serializer': ChatSettingsSerializer(data),
+            'chat_settings_serializer': serializer,
         }
-        return Response(context)
+        'use Serializer(*args) for serialization and Serializer(**kwargs) for deserialization'
+        response = Response(context) if talk_id is None else redirect('chat')
+        return response
 
     def post(self, request):
         print('chat_settings:post')
@@ -64,11 +57,11 @@ class SettingsAPI(APIView):
         return redirect('chat')
 
 class ChatAPI(APIView):
+
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'chat.html'
 
     def get(self, request):
-        print('chat:get')
         talk_id = get_talk_id(request)
         talk, created = Talk.objects.get_or_create(pk=talk_id)
         data = {'text': ''}
