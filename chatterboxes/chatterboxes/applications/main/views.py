@@ -1,7 +1,10 @@
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from http.cookies import SimpleCookie
 from django.shortcuts import redirect
+
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
@@ -15,18 +18,11 @@ class MainPageAPI(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'main_page.html'
 
-    def old_get(self, request):
-        talk_id = get_talk_id(request)
-        print(f'talk_id in main page api: {talk_id}')
-        print(type(talk_id))
-        if not talk_id is None:
-            return redirect('chat')
-        else:
-            return Response()
-
     def get(self, request):
+
         print('main:get')
-        talk_id = request.session.get('talk_id', None)
+        talk_id = get_talk_id(request)
+        print(f'cookies: {request.COOKIES}')
         print(f'talk id: {talk_id}')
         if talk_id is None:
             return Response()
