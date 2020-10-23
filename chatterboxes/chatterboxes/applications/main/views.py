@@ -16,9 +16,6 @@ class MainPageAPI(APIView):
     template_name = 'main_page.html'
 
     def old_get(self, request):
-        print('main:get')
-        print(request.session.__dict__)
-        ChatSession
         talk_id = get_talk_id(request)
         print(f'talk_id in main page api: {talk_id}')
         print(type(talk_id))
@@ -31,16 +28,10 @@ class MainPageAPI(APIView):
         print('main:get')
         talk_id = request.session.get('talk_id', None)
         print(f'talk id: {talk_id}')
-        channel_layer = get_channel_layer()
-        print('sending general.add')
-        async_to_sync(channel_layer.group_send)(
-            'general', {
-                'type': 'general.add',
-                'data': 'some_data'
-                }
-            )
         if talk_id is None:
             return Response()
+        else:
+            return redirect('chat')
 
 class SettingsAPI(APIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -81,6 +72,7 @@ class ChatAPI(APIView):
     template_name = 'chat.html'
 
     def get(self, request):
+        print('chat:get')
         talk_id = get_talk_id(request)
         talk, created = Talk.objects.get_or_create(pk=talk_id)
         data = {'text': ''}
@@ -93,7 +85,7 @@ class ChatAPI(APIView):
         return response
 
     def post(self, request):
-        print("")
+        print('chat:post')
         serializer = ChatMessageSerializer(data=request.POST)
         if serializer.is_valid():
             print('VALID')
@@ -114,7 +106,7 @@ class ChatAPI(APIView):
         return Response(context)
 
     def patch(self, request):
-        print('patching')
+        print('chat:patch')
         print(request.COOKIES)
         print(request.data)
         talk_id = get_talk_id(request)

@@ -7,10 +7,10 @@ from chatterboxes.applications.main.models import *
 from chatterboxes.applications.main.serializers import *
 
 @tag('views')
-class SettingsAPITest(TransactionTestCase):
+class ChatAPITest(TransactionTestCase):
 
     def setUp(self):
-        self.url = reverse('chat_settings')
+        self.url = reverse('chat')
         for i in range(NUMBER_OF_CLIENTS):
             setattr(self, f'client{i + 1}', Client())
 

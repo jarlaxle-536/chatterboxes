@@ -20,9 +20,7 @@ class MainPageAPITest(TransactionTestCase):
         'as if user enters site for the first time'
         response = self.client1.get(self.url)
         channel_layer = get_channel_layer()
-        print(response.data)
-        print(channel_layer)
-        print(response.request)
+        print(response.cookies)
 #        request.session.get('talk_id', None)
 
 NUMBER_OF_CLIENTS = 5
