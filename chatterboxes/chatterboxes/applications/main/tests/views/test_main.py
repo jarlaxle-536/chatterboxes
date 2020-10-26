@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.test import Client
 
 @tag('views', 'main')
-class MainPageAPITest(TestCase):
+class MainPageAPIGetTest(TestCase):
 
     def setUp(self):
         self.url = reverse('main')
@@ -15,7 +15,7 @@ class MainPageAPITest(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertEquals(len(response.redirect_chain), 0)
 
-    def test_get_with_cookies(self):
+    def test_get_with_valid_cookies(self):
         self.client.cookies = SimpleCookie({'talk_id': 1})
         response = self.client.get(self.url, follow=True)
         self.assertEquals(response.status_code, 200)

@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
+from urllib.parse import urlencode, parse_qs
 
 from .serializers import *
 from .auxiliary import *
@@ -21,6 +22,7 @@ class MainPageAPI(APIView):
     def get(self, request):
         talk_id = get_talk_id(request)
         response = Response() if talk_id is None else redirect('chat')
+        # do redirect in middleware
         return response
 
 class SettingsAPI(APIView):
@@ -30,31 +32,29 @@ class SettingsAPI(APIView):
 
     def get(self, request):
         'if talk id is present, redirect to chat'
-        print('chat_settings:get')
         talk_id = get_talk_id(request)
+        if talk_id is not None:
+            return redirect('chat')
+        # do redirect in middleware
         serializer = ChatSettingsSerializer(ChatSettings.default_object())
-        context = {
-            'chat_settings_serializer': serializer,
-        }
-        'use Serializer(*args) for serialization and Serializer(**kwargs) for deserialization'
+        context = {'chat_settings_serializer': serializer, }
         response = Response(context) if talk_id is None else redirect('chat')
         return response
 
     def post(self, request):
-        print('chat_settings:post')
         serializer = ChatSettingsSerializer(data=request.POST)
-        print(serializer)
+        context = {'chat_settings_serializer': serializer, }
+        response = Response(context)
         if serializer.is_valid():
             print('VALID')
-            "save settings to cookies!"
+            write_settings_to_cookies(response, serializer)
+            print(response.cookies)
         else:
             print('INVALID')
             print(serializer.errors)
-        context = {
-            'chat_settings_serializer': serializer,
-        }
+
         'search for possible interlocutor here'
-        return redirect('chat')
+        return response
 
 class ChatAPI(APIView):
 

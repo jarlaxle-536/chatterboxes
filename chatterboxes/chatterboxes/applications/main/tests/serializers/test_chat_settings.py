@@ -1,10 +1,10 @@
-from django.test import TestCase, TransactionTestCase, tag
+from django.test import TestCase, tag
 
 from chatterboxes.applications.main.models import *
 from chatterboxes.applications.main.serializers import *
 
 @tag('serializer', 'settings')
-class ChatSettingsSerializationTest(TransactionTestCase):
+class ChatSettingsSerializationTest(TestCase):
 
     def setUp(self):
         self.default_object = ChatSettings.default_object()
@@ -15,11 +15,8 @@ class ChatSettingsSerializationTest(TransactionTestCase):
             self.assertEquals(v, getattr(self.default_object, k))
 
 @tag('serializer', 'settings')
-class ChatSettingsDeserializationTest(TransactionTestCase):
-
-    def setUp(self):
-        pass
-
+class ChatSettingsDeserializationTest(TestCase):
+    
     def test_all_valid(self):
         serializer = ChatSettingsSerializer(data=VALID_SETTINGS_SERIALIZER_DATA)
         self.assertTrue(serializer.is_valid())
@@ -31,18 +28,9 @@ class ChatSettingsDeserializationTest(TransactionTestCase):
             serializer = ChatSettingsSerializer(data=data)
             self.assertFalse(serializer.is_valid())
 
-VALID_SETTINGS_SERIALIZER_DATA = {
-    'allow_bots': False,
-    'client_gender': 'male',
-    'client_age': '0-15',
-    'interlocutor_gender': ['male', 'female'],
-    'interlocutor_age': ['0-15'],
-}
+CHAT_SETTINGS_DEFAULT = ChatSettings.default_object()
 
-INVALID_SETTINGS_SERIALIZER_DATA = {
-    'allow_bots': None,
-    'client_gender': None,
-    'client_age': None,
-    'interlocutor_gender': 'male',
-    'interlocutor_age': '0-15',
-}
+VALID_SETTINGS_SERIALIZER_DATA = CHAT_SETTINGS_DEFAULT.__dict__
+
+INVALID_SETTINGS_SERIALIZER_DATA = {k: None
+    for k in CHAT_SETTINGS_DEFAULT.__dict__}
