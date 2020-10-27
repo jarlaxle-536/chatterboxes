@@ -25,6 +25,8 @@ class GeneralConsumer(WebsocketConsumer):
         print(f'general add with {kwargs}')
         self.send('lorem')
 
+USERS_REGISTER = dict()
+
 class ChatConsumer(WebsocketConsumer):
 
     group_name = 'chat'

@@ -12,6 +12,9 @@ def get_talk_id(request):
         res = None
     return res
 
+def get_settings_from_request(request):
+    return request.COOKIES.get('chat_settings')
+
 def write_settings_to_cookies(
     response,
     settings_serializer,

@@ -18,14 +18,22 @@ class ResponseSettingsTest(TestCase):
             acquired_data = get_settings_from_cookies(self.response)
             self.assertEquals(serializer.data, acquired_data)
 
+@tag('auxiliary', 'settings', 'settings_auxiliary')
+class RequestSettingsTest(TestCase):
+
+    def setUp(self):
+        pass
+
+    def test_set_and_get_the_same(self):
+        request = RequestFactory().get(reverse('chat_settings'))
+        for obj in SETTINGS_OBJECTS:
+            serializer = ChatSettingsSerializer(obj)
+            serializer_data = {k:v for k, v in serializer.data.items()}
+            request.COOKIES.update({'chat_settings': serializer_data})
+            acquired_data = get_settings_from_request(request)
+            self.assertEquals(serializer_data, acquired_data)
+
 SETTINGS_OBJECTS = [
     None,
     ChatSettings.default_object(),
-]
-
-COOKIES = [
-    dict(),
-    {'talk_id': 1},
-    {'talk_id': None},
-    {'talk_id': 'FAIL'},
 ]
