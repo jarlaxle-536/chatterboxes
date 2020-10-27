@@ -48,9 +48,4 @@ class SettingsAPIPostTest(TestCase):
         print('response cookies:', response.cookies)
         print('chat settings:', response.cookies.get('chat_settings'))
         res = get_settings_from_cookies(response)
-#        res = parse_qs(response.cookies.get('chat_settings').coded_value)
-#        res = json.loads(response.cookies.get('chat_settings').coded_value)
         print(res, type(res))
-
-#        res = json.loads(response.cookies.get('chat_settings'))
-#        print(res)
